@@ -34,6 +34,6 @@ class Location(db.Model):
 
     def __repr__(self):
         return '<location {}>'.format(self.post)
-    
+
 
 
