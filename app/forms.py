@@ -1,6 +1,7 @@
-from flask_wtf import FlaskForm
+from flask_wtf import FlaskForm, validators
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField, FileField, MultipleFileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+import re
 #from app.models import User
 
 #------------------- Login Form------------------------#
@@ -46,4 +47,4 @@ class PostForm(FlaskForm):
     #     form = PostForm(request.post)
     #     if form.image.data:
     #         image_data = request.FILES[form.image.name].read()
-    #     open(os.path.join(UPLOAD_PATH, form.image.data), 'w').write(image_data)
+    #     open(os.path.join(".", form.image.data), 'w').write(image_data)
