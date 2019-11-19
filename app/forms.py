@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField, FileField, MultipleFileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 #from app.models import User
 
@@ -30,3 +30,20 @@ class RegistrationForm(FlaskForm):
     #
     #     if user is not None:
     #         raise ValidationError('Please use a different email address.')
+
+#------------------- Post Form------------------------#
+class PostForm(FlaskForm):
+    loc_name = StringField('Username', validators=[DataRequired()])
+    longitude = DecimalField('Longitude', validators=[DataRequired()])
+    Latitude = DecimalField('Latitude', validators=[DataRequired()])
+    description = StringField('Description')
+    # image = FileField(u'Image',[validators.regexp(u'^[^/\\]\.jpg$')]) )
+    #
+    # def validate_image(form, field):
+    #     if field.data:
+    #         field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
+    # def upload(request):
+    #     form = PostForm(request.post)
+    #     if form.image.data:
+    #         image_data = request.FILES[form.image.name].read()
+    #     open(os.path.join(UPLOAD_PATH, form.image.data), 'w').write(image_data)
