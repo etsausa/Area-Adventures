@@ -27,6 +27,11 @@
             <a href="{{ url_for('login') }}">Login</a>
         </div>
 
+
+    {% endblock %}
+
+
+    {% block content %}
         <!-- FLASH MESSAGES -->
         <hr>
         {% with messages = get_flashed_message() %}
@@ -38,11 +43,8 @@
         </ul>
         {% endif %}
         {% endwith %}
+
     {% endblock %}
-
-
-
-    {% block content %} {% endblock %}
 </body>
 
 </html>

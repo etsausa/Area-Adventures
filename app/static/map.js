@@ -1,5 +1,5 @@
 //Variables
-const markerSRC = "../static/images/marker.png";
+const markerSRC ="../static/marker.png";
 
 const giles = [-76.489588, 42.435663];
 const park = [-76.494789, 42.424169];
