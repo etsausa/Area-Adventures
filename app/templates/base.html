@@ -24,7 +24,11 @@
             <a href="#">submit</a>
             <a href="#">discover</a>
             <a href="#">profile</a>
-            <a href="{{ url_for('login') }}">Login</a>
+            {% if current_user.is_anonymous %}
+                <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+                <a href="{{ url_for('logout') }}">Login</a>
+            {% endif %}
         </div>
 
 
