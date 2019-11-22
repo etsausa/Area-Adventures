@@ -20,21 +20,22 @@ const map = new ol.Map({
     })
 });
 
-//DRAW MARKERS--
+//DRAW MARKERS --
 for (let i = 0; i < locations.length; i++) { //for every location in list
 
-    const marker = new ol.Feature({ //create a marker variable
+    const markerFeature = new ol.Feature({ //create a marker variable
         geometry: new ol.geom.Point(
-            ol.proj.fromLonLat(locations[i])
+            ol.proj.fromLonLat(locations[i]),
         ),
+        name: "location " + locations[i],
     });
-    marker.setStyle(new ol.style.Style({ //style with a png
+    markerFeature.setStyle(new ol.style.Style({ //style with a png
         image: new ol.style.Icon(({
             src: markerSRC,
         }))
     }));
     const vectorSource = new ol.source.Vector({ //create a source from the marker
-        features: [marker]
+        features: [markerFeature]
     });
     const markerVectorLayer = new ol.layer.Vector({ //create a layer from the source
         source: vectorSource,
@@ -42,4 +43,52 @@ for (let i = 0; i < locations.length; i++) { //for every location in list
 
     map.addLayer(markerVectorLayer); //add layer to map
 }
-//DRAW
+//ONCLICK -- this doesnt work but it also doesnt break anything yet
+const element = document.getElementById('popup');
+
+const popup = new ol.Overlay({
+  element: element,
+  positioning: 'bottom-center',
+  stopEvent: false,
+  offset: [0, -50]
+});
+
+map.addOverlay(popup);
+
+// display popup on click
+map.on('click', function(evt) {
+  const feature = map.forEachFeatureAtPixel(evt.pixel,
+    function(feature) {
+      return feature;
+    });
+  if (feature) {
+    const coordinates = feature.getGeometry().getCoordinates();
+    popup.setPosition(coordinates);
+    $(element).popover({
+      placement: 'top',
+      html: true,
+      content: feature.get('name')
+    });
+    $(element).popover('show');
+  } else {
+    $(element).popover('destroy');
+  }
+});
+
+// change mouse cursor when over marker
+map.on('pointermove', function(e) {
+  if (e.dragging) {
+    $(element).popover('destroy');
+    return;
+  }
+  const pixel = map.getEventPixel(e.originalEvent);
+  const hit = map.hasFeatureAtPixel(pixel);
+  map.getTarget().style.cursor = hit ? 'pointer' : '';
+});
+
+
+//example links:
+//https://openlayers.org/en/latest/examples/hit-tolerance.html
+//https://openlayers.org/en/latest/examples/select-hover-features.html
+//https://openlayers.org/en/latest/examples/icon.html?q=pop+up
+

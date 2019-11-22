@@ -1,8 +1,9 @@
+from datetime import datetime
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Post, Location
 from werkzeug.urls import url_parse
 
 
@@ -47,4 +48,44 @@ def register():
 @app.route('/logout')
 def logout():
     logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/reset_db')
+def reset_db():
+    flash("Resetting and populating with Dummy Data")
+
+    # deleting data--
+    meta = db.metadata
+    for table in reversed(meta.sorted_tables):
+        print('Clear table {}'.format(table))
+        db.session.execute(table.delete())
+    db.session.commit()
+
+    #dummy data
+
+    u1 = User(username="ADMIN", email="AreaAdventures@gmail.com")
+    u1.set_password("Admin1234")
+    u2 = User(username="Ethan", email="etsausa@gmail.com")
+    u2.set_password("ethaniscool")
+    u3 = User(username="Lauren")
+    u3.set_password("laurenisalsocool")
+
+    p1 = Post(title="testPost", description="This is a test post. Not much else to it",
+              timeStamp=datetime(2019,11,19), is_submitted=True, user_id=1)
+    p2 = Post(title="testPost:theSQL", description="This is also a test post but its a little more complicated",
+              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2)
+
+    l1 = Location(Long=-76.489588, Lat=42.435663)
+    l2 = Location(Long=0, Lat=0)
+
+    db.session.add(u1)
+    db.session.add(u2)
+    db.session.add(u3)
+    db.session.add(p1)
+    db.session.add(p2)
+    db.session.add(l1)
+    db.session.add(l2)
+
+    db.session.commit()
+
     return redirect(url_for('index'))
