@@ -35,7 +35,7 @@ class Post(db.Model):
     timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     is_submitted = db.Column(db.Boolean)
     user_id =  db.Column(db.Integer, db.ForeignKey(User.id))
-
+    location_id = db.Column(db.Integer, db.ForeignKey(User.id))
 
     def __repr__(self):
         return '<Post {}>'.format(self.title)
@@ -45,7 +45,9 @@ class Location(db.Model):
     Long = db.Column(db.Float, index=True)
     Lat = db.Column(db.Float, index=True)
 
-    #post = db.relationship('Post', backref='location', lazy='dynamic')
+    street = db.Column(db.String)
+
+    post = db.relationship('Post', backref='location', lazy='dynamic')
 
     def __repr__(self):
         return '<location {}>'.format(self.post)

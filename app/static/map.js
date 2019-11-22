@@ -6,18 +6,24 @@ const park = [-76.494789, 42.424169];
 const ithaca = [-76.4955, 42.4395];
 
 const locations = [giles, park, ithaca]; //list of all locations
+const startingLoc = ithaca;
 
 //CONSTRUCT MAP --
-const map = new ol.Map({
 
-    target: 'map',
-    layers: [new ol.layer.Tile({
+const layer01 = new ol.layer.Tile({
         source: new ol.source.OSM()
-    })],
-    view: new ol.View({
-        center: ol.proj.fromLonLat(ithaca),
+    })
+
+const view01 = new ol.View({ //view
+        center: ol.proj.fromLonLat(startingLoc),
         zoom: 13
     })
+
+const map = new ol.Map({
+
+    target: document.getElementById('map'),
+    layers: [layer01],
+    view: view01
 });
 
 //DRAW MARKERS --
@@ -44,47 +50,6 @@ for (let i = 0; i < locations.length; i++) { //for every location in list
     map.addLayer(markerVectorLayer); //add layer to map
 }
 //ONCLICK -- this doesnt work but it also doesnt break anything yet
-const element = document.getElementById('popup');
-
-const popup = new ol.Overlay({
-  element: element,
-  positioning: 'bottom-center',
-  stopEvent: false,
-  offset: [0, -50]
-});
-
-map.addOverlay(popup);
-
-// display popup on click
-map.on('click', function(evt) {
-  const feature = map.forEachFeatureAtPixel(evt.pixel,
-    function(feature) {
-      return feature;
-    });
-  if (feature) {
-    const coordinates = feature.getGeometry().getCoordinates();
-    popup.setPosition(coordinates);
-    $(element).popover({
-      placement: 'top',
-      html: true,
-      content: feature.get('name')
-    });
-    $(element).popover('show');
-  } else {
-    $(element).popover('destroy');
-  }
-});
-
-// change mouse cursor when over marker
-map.on('pointermove', function(e) {
-  if (e.dragging) {
-    $(element).popover('destroy');
-    return;
-  }
-  const pixel = map.getEventPixel(e.originalEvent);
-  const hit = map.hasFeatureAtPixel(pixel);
-  map.getTarget().style.cursor = hit ? 'pointer' : '';
-});
 
 
 //example links:
