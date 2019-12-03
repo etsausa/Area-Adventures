@@ -8,8 +8,8 @@ const ithaca = [-76.4955, 42.4395];
 const locations = [giles, park, ithaca]; //list of all locations
 const startingLoc = ithaca;
 
-//CONSTRUCT MAP --
 
+//CONSTRUCT MAP --
 const layer01 = new ol.layer.Tile({
         source: new ol.source.OSM()
     })
@@ -23,10 +23,12 @@ const map = new ol.Map({
 
     target: document.getElementById('map'),
     layers: [layer01],
-    view: view01
+    view: view01,
+    //overlays: [overlay]
 });
 
 //DRAW MARKERS --
+/*
 for (let i = 0; i < locations.length; i++) { //for every location in list
 
     const markerFeature = new ol.Feature({ //create a marker variable
@@ -44,12 +46,12 @@ for (let i = 0; i < locations.length; i++) { //for every location in list
         features: [markerFeature]
     });
     const markerVectorLayer = new ol.layer.Vector({ //create a layer from the source
-        source: vectorSource,
+        source: vectorSource
     });
 
     map.addLayer(markerVectorLayer); //add layer to map
 }
-//ONCLICK -- this doesnt work but it also doesnt break anything yet
+*/
 
 
 //example links:

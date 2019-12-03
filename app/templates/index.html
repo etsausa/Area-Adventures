@@ -5,7 +5,13 @@
     <h1>hello adventurer</h1>
 
     <!-- Map Container -->
-    <div id="map" class="map"><div id="popup"></div></div>
+    <div id="map" class="map">
+        <div id="popup" class="ol-popup">
+            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+            <div id="popup-content"></div>
+        </div>
+    </div>
+
     <!-- Map Script-->
     <script type="text/javascript" src="../static/map.js"></script>
 
