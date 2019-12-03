@@ -12,46 +12,40 @@ const startingLoc = ithaca;
 //CONSTRUCT MAP --
 const layer01 = new ol.layer.Tile({
         source: new ol.source.OSM()
-    })
+    });
 
 const view01 = new ol.View({ //view
         center: ol.proj.fromLonLat(startingLoc),
         zoom: 13
-    })
+    });
 
 const map = new ol.Map({
-
     target: document.getElementById('map'),
     layers: [layer01],
     view: view01,
-    //overlays: [overlay]
 });
 
-//DRAW MARKERS --
-/*
-for (let i = 0; i < locations.length; i++) { //for every location in list
+//DRAW MARKER --
+const markerFeature = new ol.Feature({ //create a marker variable
+    geometry: new ol.geom.Point(
+        ol.proj.fromLonLat(ithaca),
+    ),
+    name: "ithaca",
+});
+markerFeature.setStyle(new ol.style.Style({ //style with a png
+    image: new ol.style.Icon(({
+        src: markerSRC,
+    }))
+}));
+const vectorSource = new ol.source.Vector({ //create a source from the marker
+    features: [markerFeature]
+});
+const markerVectorLayer = new ol.layer.Vector({ //create a layer from the source
+    source: vectorSource
+});
 
-    const markerFeature = new ol.Feature({ //create a marker variable
-        geometry: new ol.geom.Point(
-            ol.proj.fromLonLat(locations[i]),
-        ),
-        name: "location " + locations[i],
-    });
-    markerFeature.setStyle(new ol.style.Style({ //style with a png
-        image: new ol.style.Icon(({
-            src: markerSRC,
-        }))
-    }));
-    const vectorSource = new ol.source.Vector({ //create a source from the marker
-        features: [markerFeature]
-    });
-    const markerVectorLayer = new ol.layer.Vector({ //create a layer from the source
-        source: vectorSource
-    });
+map.addLayer(markerVectorLayer); //add layer to map
 
-    map.addLayer(markerVectorLayer); //add layer to map
-}
-*/
 
 
 //example links:
