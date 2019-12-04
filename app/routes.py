@@ -71,9 +71,9 @@ def reset_db():
     u3.set_password("laurenisalsocool")
 
     p1 = Post(title="testPost", description="This is a test post. Not much else to it",
-              timeStamp=datetime(2019,11,19), is_submitted=True, user_id=1)
+              timeStamp=datetime(2019,11,19), is_submitted=True, user_id=1, location_id=2)
     p2 = Post(title="testPost:theSQL", description="This is also a test post but its a little more complicated",
-              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2)
+              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2, location_id=2)
 
     l1 = Location(Long=-76.489588, Lat=42.435663)
     l2 = Location(Long=0, Lat=0)
