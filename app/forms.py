@@ -2,6 +2,7 @@ import os
 from flask_wtf import FlaskForm, validators
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField, FileField, MultipleFileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from app.models import User
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 #------------------- Login Form------------------------#
