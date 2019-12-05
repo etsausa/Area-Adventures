@@ -10,7 +10,8 @@ from werkzeug.urls import url_parse
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home')
+    posts = Post.query.all();
+    return render_template('index.html', title='Home', posts=posts)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -75,7 +76,7 @@ def reset_db():
     #dummy data
 
     u1 = User(username="ADMIN", email="AreaAdventures@gmail.com")
-    u1.set_password("Admin1234")
+    u1.set_password("1234")
     u2 = User(username="Ethan", email="etsausa@gmail.com")
     u2.set_password("ethaniscool")
     u3 = User(username="Lauren")
@@ -84,7 +85,7 @@ def reset_db():
     p1 = Post(title="testPost", description="This is a test post. Not much else to it",
               timeStamp=datetime(2019,11,19), is_submitted=True, user_id=1, location_id=2)
     p2 = Post(title="testPost:theSQL", description="This is also a test post but its a little more complicated",
-              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2, location_id=2)
+              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2, location_id=1)
 
     l1 = Location(Long=-76.489588, Lat=42.435663)
     l2 = Location(Long=0, Lat=0)
