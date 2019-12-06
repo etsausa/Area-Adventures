@@ -4,6 +4,7 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, Decim
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from app.models import User
+from app import photos
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 #------------------- Login Form------------------------#
 class LoginForm(FlaskForm):
@@ -35,17 +36,8 @@ class RegistrationForm(FlaskForm):
 
 #------------------- Post Form------------------------#
 class PostForm(FlaskForm):
-    loc_name = StringField('Username', validators=[DataRequired()])
-    longitude = DecimalField('Longitude', validators=[DataRequired()])
-    Latitude = DecimalField('Latitude', validators=[DataRequired()])
-    description = StringField('Description')
-    # image = FileField(u'Image',[validators.regexp(u'^[^/\\]\.jpg$')]) )
-    #
-    # def validate_image(form, field):
-    #     if field.data:
-    #         field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
-    # def upload(request):
-    #     form = PostForm(request.post)
-    #     if form.image.data:
-    #         image_data = request.FILES[form.image.name].read()
-    #     open(os.path.join(".", form.image.data), 'w').write(image_data)
+    photo = FileField(validators=[FileAllowed(photos, 'Image only!'), FileRequired('File was empty!')])
+    submit = SubmitField('Upload')
+
+
+

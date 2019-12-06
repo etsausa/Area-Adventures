@@ -1,7 +1,7 @@
 from datetime import datetime
-from app import app, db
+from app import app, db, photos
 from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm
+from app.forms import LoginForm, RegistrationForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, Location
 from werkzeug.urls import url_parse
@@ -58,8 +58,18 @@ def user(username):
         {'author': user, 'body': 'Test post 1'},
         {'author': user, 'body': 'Test post 2'}
     ]
+
     return  render_template('user.html', user=user, posts=posts)
 
+@app.route('/submit', methods=['GET', 'POST'])
+def upload_file():
+    form = PostForm()
+    if form.validate_on_submit():
+        filename = photos.save(form.photo.data)
+        file_url = photos.url(filename)
+    else:
+        file_url = None
+    return render_template('submit.html', form=form, file_url=file_url)
 
 @app.route('/reset_db')
 def reset_db():
