@@ -16,7 +16,7 @@
     {% block navbar %}
         <div>
             <a href="{{  url_for('index') }}">home</a>
-            <a href="#">submit</a>
+            <a href="{{  url_for('submit') }}">submit</a>
             <a href="#">discover</a>
             {% if current_user.is_anonymous %}
                 <a href="{{ url_for('login') }}">Login</a>

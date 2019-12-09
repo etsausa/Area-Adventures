@@ -46,3 +46,17 @@ class PostForm(FlaskForm):
 
 
 
+    loc_name = StringField('Location Title', validators=[DataRequired()])
+    longitude = DecimalField('Longitude', validators=[DataRequired()])
+    latitude = DecimalField('Latitude', validators=[DataRequired()])
+    description = StringField('Description')
+    # image = FileField(u'Image',[validators.regexp(u'^[^/\\]\.jpg$')]) )
+    #
+    # def validate_image(form, field):
+    #     if field.data:
+    #         field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
+    # def upload(request):
+    #     form = PostForm(request.post)
+    #     if form.image.data:
+    #         image_data = request.FILES[form.image.name].read()
+    #     open(os.path.join(".", form.image.data), 'w').write(image_data)

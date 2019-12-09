@@ -39,7 +39,6 @@ class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     Long = db.Column(db.Float, index=True)
     Lat = db.Column(db.Float, index=True)
-
     street = db.Column(db.String)
 
     post = db.relationship('Post', backref='location', lazy='dynamic')

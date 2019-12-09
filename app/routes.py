@@ -2,6 +2,9 @@ from datetime import datetime
 from app import app, db, photos
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm, PostForm
+from app import app, db
+from flask import render_template, flash, redirect, url_for, request, jsonify
+from app.forms import LoginForm, RegistrationForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, Location
 from werkzeug.urls import url_parse
@@ -10,8 +13,18 @@ from werkzeug.urls import url_parse
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home')
+    posts = Post.query.all()
+    return render_template('index.html', title='Home', posts=posts)
 
+@app.route('/getPosts', methods=['GET'])
+def getPosts():
+    #to send data to JS
+    return jsonify(posts = Post.query.all()) #currently only returns a server error | jsonify probably wont work for this
+
+@app.route("/submit")
+def submit():
+    form = PostForm()
+    return render_template('submit.html',title="Submit", form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -85,7 +98,7 @@ def reset_db():
     #dummy data
 
     u1 = User(username="ADMIN", email="AreaAdventures@gmail.com")
-    u1.set_password("Admin1234")
+    u1.set_password("1234")
     u2 = User(username="Ethan", email="etsausa@gmail.com")
     u2.set_password("ethaniscool")
     u3 = User(username="Lauren")
@@ -94,7 +107,7 @@ def reset_db():
     p1 = Post(title="testPost", description="This is a test post. Not much else to it",
               timeStamp=datetime(2019,11,19), is_submitted=True, user_id=1, location_id=2)
     p2 = Post(title="testPost:theSQL", description="This is also a test post but its a little more complicated",
-              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2, location_id=2)
+              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2, location_id=1)
 
     l1 = Location(Long=-76.489588, Lat=42.435663)
     l2 = Location(Long=0, Lat=0)
