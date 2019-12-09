@@ -1,4 +1,3 @@
-
 //Variables
 const markerSRC ="../static/marker.png";
 
@@ -10,6 +9,18 @@ const ithaca = [-76.4955, 42.4395];
 const locations = [giles, park, ithaca]; //list of all locations
 const names = ["giles", "park", "ithaca"]
 const startingLoc = ithaca;
+
+//https://healeycodes.com/javascript/python/beginners/webdev/2019/04/11/talking-between-languages.html
+//this malarkey \/\/\/
+
+//kindly asks the flask app to give JS posts
+fetch('/getPosts')
+    .then(function (response){
+        return response.text();
+    }).then(function (text){
+        console.log('GET response text:');
+        console.log(text);
+})
 
 
 //CONSTRUCT MAP --

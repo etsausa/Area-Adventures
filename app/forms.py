@@ -33,9 +33,9 @@ class RegistrationForm(FlaskForm):
 
 #------------------- Post Form------------------------#
 class PostForm(FlaskForm):
-    loc_name = StringField('Username', validators=[DataRequired()])
+    loc_name = StringField('Location Title', validators=[DataRequired()])
     longitude = DecimalField('Longitude', validators=[DataRequired()])
-    Latitude = DecimalField('Latitude', validators=[DataRequired()])
+    latitude = DecimalField('Latitude', validators=[DataRequired()])
     description = StringField('Description')
     # image = FileField(u'Image',[validators.regexp(u'^[^/\\]\.jpg$')]) )
     #

@@ -1,7 +1,7 @@
 from datetime import datetime
 from app import app, db
-from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm
+from flask import render_template, flash, redirect, url_for, request, jsonify
+from app.forms import LoginForm, RegistrationForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, Location
 from werkzeug.urls import url_parse
@@ -10,9 +10,18 @@ from werkzeug.urls import url_parse
 @app.route('/')
 @app.route('/index')
 def index():
-    posts = Post.query.all();
+    posts = Post.query.all()
     return render_template('index.html', title='Home', posts=posts)
 
+@app.route('/getPosts', methods=['GET'])
+def getPosts():
+    #to send data to JS
+    return jsonify(posts = Post.query.all()) #currently only returns a server error | jsonify probably wont work for this
+
+@app.route("/submit")
+def submit():
+    form = PostForm()
+    return render_template('submit.html',title="Submit", form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

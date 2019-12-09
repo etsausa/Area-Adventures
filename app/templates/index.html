@@ -16,5 +16,9 @@
     <!-- Map Script-->
     <script type="text/javascript" src="../static/map.js"></script>
 
+    {% for post in posts %}
+        <p>{{ post.title }}</p>
+    {% endfor %}
+
 {%  endblock %}
 
