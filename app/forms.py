@@ -37,6 +37,7 @@ class PostForm(FlaskForm):
     longitude = DecimalField('Longitude', validators=[DataRequired()])
     latitude = DecimalField('Latitude', validators=[DataRequired()])
     description = StringField('Description')
+    submit = SubmitField('Submit Post')
     # image = FileField(u'Image',[validators.regexp(u'^[^/\\]\.jpg$')]) )
     #
     # def validate_image(form, field):

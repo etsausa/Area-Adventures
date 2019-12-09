@@ -21,6 +21,8 @@ def getPosts():
 @app.route("/submit")
 def submit():
     form = PostForm()
+    if form.validate_on_submit():
+        p = Post(title=form.loc_name.data, description=form.description.data,)
     return render_template('submit.html',title="Submit", form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
