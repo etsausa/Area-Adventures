@@ -1,6 +1,6 @@
 import os
 from flask_wtf import FlaskForm, validators
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField, FileField, MultipleFileField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField, FileField, MultipleFileField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from app.models import User
@@ -36,8 +36,13 @@ class RegistrationForm(FlaskForm):
 
 #------------------- Post Form------------------------#
 class PostForm(FlaskForm):
+    # destName = StringField('Name', validators=[DataRequired()])
+    # field_latitude = FloatField(u'Latitude', default=-30, validators=[DataRequired()], description='48.182601')
+    # field_longitude = FloatField(u'Longitude', default=150, validators=[DataRequired()], description='11.304939')
+    # description = StringField('Description', validators=[DataRequired()])
     photo = FileField(validators=[FileAllowed(photos, 'Image only!'), FileRequired('File was empty!')])
-    submit = SubmitField('Upload')
+
+    submit = SubmitField('Submit')
 
 
 
