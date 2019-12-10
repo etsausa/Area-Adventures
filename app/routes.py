@@ -9,14 +9,13 @@ from app import app, db
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from app.forms import LoginForm, RegistrationForm, PostForm, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Post, Location, PostSchema
+from app.models import User, Post, PostSchema
 from werkzeug.urls import url_parse
 
 
 @app.route('/')
 @app.route('/index')
 def index():
-
     return render_template('index.html', title='Home')
 
 @app.route('/getPosts', methods=['GET'])
@@ -25,13 +24,29 @@ def getPosts():
     post_schema = PostSchema(many=True)
     output = post_schema.dump(posts)
 
-    return jsonify({'post' : output})
+    return jsonify(output)
 
-@app.route("/submit")
+@app.route('/postLocation', methods=['POST'])
+def postLocation():
+    print(request.get_json())
+    return 'OK' , 200
+
+@app.route("/submit", methods=['GET','POST'])
 def submit():
     form = PostForm()
     if form.validate_on_submit():
-        p = Post(title=form.loc_name.data, description=form.description.data,)
+
+        p = Post(title=form.loc_name.data, description=form.description.data)
+
+        db.session.add(p)
+        db.session.commit()
+
+        flash('Location Submitted')
+
+        return redirect(url_for('index'))
+
+    return render_template('submit.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -76,7 +91,6 @@ def user(username):
     user = User.query.filter_by(username=username).first_or_404()
     posts = user.posts
 
-
     return render_template('user.html', user=user, posts=posts)
 
 
@@ -99,15 +113,15 @@ def edit_profile():
                                form=form)
 
 
-@app.route('/submit', methods=['GET', 'POST'])
-def upload_file():
-    form = PostForm()
-    if form.validate_on_submit():
-        filename = photos.save(form.photo.data)
-        file_url = photos.url(filename)
-    else:
-        file_url = None
-    return render_template('submit.html', form=form, file_url=file_url)
+#@app.route('/submit', methods=['GET', 'POST'])
+#def upload_file():
+#    form = PostForm()
+#    if form.validate_on_submit():
+#        filename = photos.save(form.photo.data)
+#        file_url = photos.url(filename)
+#    else:
+#        file_url = None
+#    return render_template('submit.html', form=form, file_url=file_url)
 
 
 @app.route('/reset_db')
@@ -130,23 +144,16 @@ def reset_db():
     u3 = User(username="Lauren", email="lauren@test.com")
     u3.set_password("laurenisalsocool")
 
-    p1 = Post(title="testPost", description="This is a test post. Not much else to it",
-              timeStamp=datetime(2019,11,19), is_submitted=True, user_id=1, location_id=2)
-    p2 = Post(title="testPost:theSQL", description="This is also a test post but its a little more complicated",
-              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2, location_id=1)
-
-    l1 = Location(Long=-76.489588, Lat=42.435663)
-    l2 = Location(Long=0, Lat=0)
-
-
+    p1 = Post(title="testPost", description="This is a test post. Not much else to it", Long=-76.489588, Lat=42.435663,
+              timeStamp=datetime(2019,11,19), is_submitted=True, user_id=1)
+    p2 = Post(title="testPost:theSQL", description="This is also a test post but its a little more complicated", Long=0, Lat=0,
+              timeStamp=datetime(1900,1,1), is_submitted=True, user_id=2)
 
     db.session.add(u1)
     db.session.add(u2)
     db.session.add(u3)
     db.session.add(p1)
     db.session.add(p2)
-    db.session.add(l1)
-    db.session.add(l2)
 
     db.session.commit()
 

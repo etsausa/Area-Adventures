@@ -45,4 +45,7 @@ map.on('singleclick', function (event) { //create popup on click
         let coord = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326'); //grab location data
         content.innerHTML = '<p>You clicked here:</p><code>' + coord +
       '</code>';
+
+        fetch('/postLoc')
 });
+
