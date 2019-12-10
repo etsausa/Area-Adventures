@@ -3,7 +3,7 @@ from app import app, db
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from app.forms import LoginForm, RegistrationForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Post, Location
+from app.models import User, Post, Location, PostSchema
 from werkzeug.urls import url_parse
 
 
@@ -15,8 +15,11 @@ def index():
 
 @app.route('/getPosts', methods=['GET'])
 def getPosts():
-    #to send data to JS
-    return jsonify(posts = Post.query.all()) #currently only returns a server error | jsonify probably wont work for this
+    posts = Post.query.all()
+    post_schema = PostSchema(many=True)
+    output = post_schema.dump(posts)
+
+    return jsonify({'post' : output})
 
 @app.route("/submit")
 def submit():

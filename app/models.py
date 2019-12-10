@@ -1,9 +1,10 @@
 from datetime import datetime
 from hashlib import md5
-from app import db
+from app import db, ma
 from app import login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -58,3 +59,8 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post {}>'.format(self.title)
+
+#Marshmallow Schemas for JSONIFY
+class PostSchema(ma.ModelSchema):
+    class Meta:
+        model = Post
