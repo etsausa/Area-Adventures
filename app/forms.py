@@ -1,8 +1,11 @@
+import os
 from flask_wtf import FlaskForm, validators
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, DecimalField, FileField, MultipleFileField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField, DecimalField, TextAreaField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 from app.models import User
-
+from app import photos
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 #------------------- Login Form------------------------#
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -33,10 +36,11 @@ class RegistrationForm(FlaskForm):
 
 #------------------- Post Form------------------------#
 class PostForm(FlaskForm):
-    loc_name = StringField('Username', validators=[DataRequired()])
+    loc_name = StringField('Location Title', validators=[DataRequired()])
     longitude = DecimalField('Longitude', validators=[DataRequired()])
-    Latitude = DecimalField('Latitude', validators=[DataRequired()])
+    latitude = DecimalField('Latitude', validators=[DataRequired()])
     description = StringField('Description')
+    submit = SubmitField('Submit Post')
     # image = FileField(u'Image',[validators.regexp(u'^[^/\\]\.jpg$')]) )
     #
     # def validate_image(form, field):
@@ -47,3 +51,22 @@ class PostForm(FlaskForm):
     #     if form.image.data:
     #         image_data = request.FILES[form.image.name].read()
     #     open(os.path.join(".", form.image.data), 'w').write(image_data)
+    # destName = StringField('Name', validators=[DataRequired()])
+    # field_latitude = FloatField(u'Latitude', default=-30, validators=[DataRequired()], description='48.182601')
+    # field_longitude = FloatField(u'Longitude', default=150, validators=[DataRequired()], description='11.304939')
+    # description = StringField('Description', validators=[DataRequired()])
+
+    # loc_name = StringField('Location Title', validators=[DataRequired()])
+    # longitude = DecimalField('Longitude', validators=[DataRequired()])
+    # latitude = DecimalField('Latitude', validators=[DataRequired()])
+    # description = StringField('Description')
+
+    photo = FileField(validators=[FileAllowed(photos, 'Image only!'), FileRequired('File was empty!')])
+
+    submit = SubmitField('Submit')
+
+class EditProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Submit')
+

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Select a Location Below </h1>
+    <!-- Map Container -->
+    <div id="map" class="map"></div>
+
+    <!-- Popup Container -->
+    <div id="popup" class="ol-popup">
+        <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+        <div id="popup-content"></div>
+    </div>
+
+    <!-- Map Script-->
+    <script type="text/javascript" src="../static/longLat.js"></script>
+
+    <form action="" method="post" novalidate>
+        <p>
+            {{ form.loc_name.label }}<br>
+            {{ form.loc_name(size=32) }}
+            {% for error in form.loc_name.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.description.label }}<br>
+            {{ form.description(size=512) }}
+            {% for error in form.description.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+{% block content %}
+    <h1>Photo Upload</h1>
+<form method="POST" enctype="multipart/form-data">
+{#     {{ form.location.label }}#}
+{#     {{ form.longitude.label }}#}
+{#     {{ form.latitude.label }}#}
+{#     {{ form.description.label }}#}
+{#     {{ form.hidden_tag() }}#}
+     {{ form.hidden_tag() }}
+     {{ form.photo }}
+     {% for error in form.photo.errors %}
+         <span style="color: red;">{{ error }}</span>
+     {% endfor %}
+     {{ form.submit }}
+</form>
+
+{% if file_url %}
+<br>
+<img src="{{ file_url }}">
+{% endif %}
+{% endblock %}

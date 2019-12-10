@@ -5,12 +5,7 @@
     <!-- Map Style Sheet -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/css/ol.css" type="text/css">
     <!-- Map Style -->
-    <style>
-      .map {
-        height: 400px;
-        width: 100%;
-      }
-    </style>
+    <link rel="stylesheet" href="../static/map.css" type="text/css">
     <!-- Map JS -->
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.1.1/build/ol.js"></script>
 
@@ -21,13 +16,13 @@
     {% block navbar %}
         <div>
             <a href="{{  url_for('index') }}">home</a>
-            <a href="#">submit</a>
+            <a href="{{  url_for('submit') }}">submit</a>
             <a href="#">discover</a>
-            <a href="#">profile</a>
             {% if current_user.is_anonymous %}
                 <a href="{{ url_for('login') }}">Login</a>
             {% else %}
-                <a href="{{ url_for('logout') }}">Login</a>
+                <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
         </div>
 
