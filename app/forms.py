@@ -41,10 +41,10 @@ class PostForm(FlaskForm):
     # field_longitude = FloatField(u'Longitude', default=150, validators=[DataRequired()], description='11.304939')
     # description = StringField('Description', validators=[DataRequired()])
 
-    loc_name = StringField('Location Title', validators=[DataRequired()])
-    longitude = DecimalField('Longitude', validators=[DataRequired()])
-    latitude = DecimalField('Latitude', validators=[DataRequired()])
-    description = StringField('Description')
+    # loc_name = StringField('Location Title', validators=[DataRequired()])
+    # longitude = DecimalField('Longitude', validators=[DataRequired()])
+    # latitude = DecimalField('Latitude', validators=[DataRequired()])
+    # description = StringField('Description')
 
     photo = FileField(validators=[FileAllowed(photos, 'Image only!'), FileRequired('File was empty!')])
 
