@@ -1,7 +1,7 @@
 import os
 from flask_wtf import FlaskForm, validators
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField, FileField, MultipleFileField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FloatField, DecimalField, TextAreaField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from app.models import User
 from app import photos
@@ -40,23 +40,20 @@ class PostForm(FlaskForm):
     # field_latitude = FloatField(u'Latitude', default=-30, validators=[DataRequired()], description='48.182601')
     # field_longitude = FloatField(u'Longitude', default=150, validators=[DataRequired()], description='11.304939')
     # description = StringField('Description', validators=[DataRequired()])
-    photo = FileField(validators=[FileAllowed(photos, 'Image only!'), FileRequired('File was empty!')])
-
-    submit = SubmitField('Submit')
-
-
 
     loc_name = StringField('Location Title', validators=[DataRequired()])
     longitude = DecimalField('Longitude', validators=[DataRequired()])
     latitude = DecimalField('Latitude', validators=[DataRequired()])
     description = StringField('Description')
-    # image = FileField(u'Image',[validators.regexp(u'^[^/\\]\.jpg$')]) )
-    #
-    # def validate_image(form, field):
-    #     if field.data:
-    #         field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
-    # def upload(request):
-    #     form = PostForm(request.post)
-    #     if form.image.data:
-    #         image_data = request.FILES[form.image.name].read()
-    #     open(os.path.join(".", form.image.data), 'w').write(image_data)
+
+    photo = FileField(validators=[FileAllowed(photos, 'Image only!'), FileRequired('File was empty!')])
+
+    submit = SubmitField('Submit')
+
+
+class EditProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Submit')
+
+
