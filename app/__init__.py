@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
 from flask_marshmallow import Marshmallow
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 
 app = Flask(__name__, static_url_path='/static')
 app.config.from_object(Config)
@@ -15,4 +16,8 @@ login = LoginManager(app)
 login.login_view = 'login'
 bootstrap = Bootstrap(app)
 
-from app import routes, models, login
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, photos)
+patch_request_class(app)
+
+from app import routes, models, login, photos
