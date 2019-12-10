@@ -50,6 +50,7 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.title)
 
+
 #Marshmallow Schemas for JSONIFY
 class PostSchema(ma.ModelSchema):
     class Meta:

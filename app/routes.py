@@ -89,10 +89,7 @@ def logout():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    posts = [
-        {'author': user, 'body': 'Test post 1'},
-        {'author': user, 'body': 'Test post 2'}
-    ]
+    posts = user.posts
 
     return render_template('user.html', user=user, posts=posts)
 
@@ -144,7 +141,7 @@ def reset_db():
     u1.set_password("1234")
     u2 = User(username="Ethan", email="etsausa@gmail.com")
     u2.set_password("ethaniscool")
-    u3 = User(username="Lauren")
+    u3 = User(username="Lauren", email="lauren@test.com")
     u3.set_password("laurenisalsocool")
 
     p1 = Post(title="testPost", description="This is a test post. Not much else to it", Long=-76.489588, Lat=42.435663,
