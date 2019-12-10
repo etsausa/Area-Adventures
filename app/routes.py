@@ -36,7 +36,7 @@ def submit():
     form = PostForm()
     if form.validate_on_submit():
 
-        p = Post(title=form.loc_name.data, description=form.description.data)
+        p = Post(title=form.loc_name.data, description=form.description.data, long=form.longitude.data, lat=form.latitude.data)
 
         db.session.add(p)
         db.session.commit()
