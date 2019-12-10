@@ -2,7 +2,7 @@
 
 {%  block content %}
 
-    <h1>hello adventurer</h1>
+{#    <h1>hello adventurer</h1>#}
 
     <!-- Map Container -->
     <div id="map" class="map"></div>
@@ -15,10 +15,31 @@
 
     <!-- Map Script-->
     <script type="text/javascript" src="../static/map.js"></script>
+    <br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="display-4 text-center">Recent Posts</h1>
+                <hr>
 
-    {% for post in posts %}
-        <p>{{ post.title }}</p>
-    {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {% for post in posts %}
+                <div class="card border-dark mb-3 mx-auto" style="max-width: 18rem;">
+{#                  <div class="card-header">{{ post.title }}</div>#}
+                  <div class="card-body text-dark">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.description }}</p>
+                  </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
 
 {%  endblock %}
 
