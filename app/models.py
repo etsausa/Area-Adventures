@@ -37,26 +37,15 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-class Location(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    Long = db.Column(db.Float, index=True)
-    Lat = db.Column(db.Float, index=True)
-    street = db.Column(db.String)
-
-    post = db.relationship('Post', backref='location', lazy='dynamic')
-
-    def __repr__(self):
-        return '<location {}>'.format(self.post)
-
-
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True)
     description = db.Column(db.String(512), index=True)
+    Long = db.Column(db.Float, index=True)
+    Lat = db.Column(db.Float, index=True)
     timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     is_submitted = db.Column(db.Boolean)
     user_id =  db.Column(db.Integer, db.ForeignKey(User.id))
-    location_id = db.Column(db.Integer, db.ForeignKey(Location.id))
 
     def __repr__(self):
         return '<Post {}>'.format(self.title)
