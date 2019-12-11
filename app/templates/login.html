@@ -1,28 +1,22 @@
 {% extends "base.html" %}
-
+{% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
-    <h1>Sign In</h1>
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=32) }}
-            {% for error in form.username.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=32) }}
-            {% for error in form.username.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-        <p>{{ form.submit() }}</p>
 
-        <br>
-        <p>New User? <a href="{{ url_for('register') }}">Click to Register!!</a></p>
-    </form>
+    <div class="container">
+        <div class="row align-items-center h-100">
+            <div class="col-12">
+                 <div class="card mx-auto text-center" style="width: 500px;">
+                    <div class="card-header">
+                         <h4 class="card-title">Sign In</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ wtf.quick_form(form) }}
+                        <p>New User? <a href="{{ url_for('register') }}">Click to Register!!</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 {% endblock %}
