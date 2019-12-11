@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
 
     <!-- interactive map -->
@@ -15,38 +16,19 @@
     <!-- Map Script-->
     <script type="text/javascript" src="../static/longLat.js"></script>
 
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.loc_name.label }}<br>
-            {{ form.loc_name(size=32) }}
-            {% for error in form.loc_name.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.description.label }}<br>
-            {{ form.description(size=512) }}
-            {% for error in form.description.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.longitude.label }}<br>
-            {{ form.longitude(size=16) }}
-            {% for error in form.longitude.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>
-            {{ form.latitude.label }}<br>
-            {{ form.latitude(size=16) }}
-            {% for error in form.latitude.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h3 class="text-center display-4">Select a Location Below</h3>
+                <hr>
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+    </div>
+
+
+
 
 {% endblock %}
 
