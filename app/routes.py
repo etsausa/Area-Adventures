@@ -11,6 +11,7 @@ from app.forms import LoginForm, RegistrationForm, PostForm, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, PostSchema
 from werkzeug.urls import url_parse
+from werkzeug.utils import secure_filename
 
 
 @app.route('/')
@@ -34,6 +35,8 @@ def postLocation():
 @app.route("/submit", methods=['GET','POST'])
 def submit():
     form = PostForm()
+
+
     if form.validate_on_submit():
 
         p = Post(title=form.loc_name.data, description=form.description.data, Long=form.longitude.data, Lat=form.latitude.data)
