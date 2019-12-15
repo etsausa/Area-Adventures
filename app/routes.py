@@ -1,4 +1,6 @@
 from datetime import datetime
+import secrets
+import os
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from app.forms import LoginForm, RegistrationForm, PostForm
@@ -7,7 +9,7 @@ from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm, PostForm
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request, jsonify
-from app.forms import LoginForm, RegistrationForm, PostForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, PostForm, EditProfileForm, UpdateAccountForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, PostSchema
 from werkzeug.urls import url_parse
@@ -85,13 +87,38 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/user/<username>')
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fileName = random_hex + f_ext
+    picture_path = os.path.join((app.root_path, 'static/profile_pics', 'picture_fileName'))
+    form_picture.save(picture_path)
+
+    return picture_fileName
+
+
+@app.route('/user/<username>', methods=['GET', 'POST'])
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
+    form = UpdateAccountForm()
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash('Your account has been updated', 'success')
+        return redirect(url_for('user'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+
     posts = user.posts
 
-    return render_template('user.html', user=user, posts=posts)
+    return render_template('user.html', user=user, posts=posts, image_file=image_file, form=form)
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])

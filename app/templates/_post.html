@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="media">
-  <img class="mr-3" src="{{ post.author.avatar(72) }}" alt="Generic placeholder image">
+  <img class="mr-3 rounded-circle" src="{{ image_file }}" alt="Generic placeholder image">
   <div class="media-body">
     <h5 class="mt-0">{{ post.author.username }}</h5>
     <p>{{ post.body }}</p>
