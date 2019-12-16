@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     about_me = db.Column(db.String(140))
+    image_file = db.Column(db.String(60), nullable=False, default='default.jpg')
     #last_seen = db.Column(db.DateTime, default=datetime.utcnow())
 
 
@@ -44,6 +45,7 @@ class Post(db.Model):
     Long = db.Column(db.Float, index=True)
     Lat = db.Column(db.Float, index=True)
     timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    image_file = db.Column(db.String(60), nullable=False, default='default.jpg')
     is_submitted = db.Column(db.Boolean)
     user_id =  db.Column(db.Integer, db.ForeignKey(User.id))
 
