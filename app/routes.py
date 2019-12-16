@@ -1,6 +1,7 @@
 from datetime import datetime
 import secrets
 import os
+from PIL import Image
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from app.forms import LoginForm, RegistrationForm, PostForm
@@ -32,6 +33,20 @@ def getPosts():
 def postLocation():
     print(request.get_json())
     return 'OK' , 200
+
+
+def save_picture(form_picture):
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fileName = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fileName)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fileName
 
 @app.route("/submit", methods=['GET','POST'])
 def submit():
@@ -87,11 +102,12 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fileName = random_hex + f_ext
-    picture_path = os.path.join((app.root_path, 'static/profile_pics', 'picture_fileName'))
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fileName)
     form_picture.save(picture_path)
 
     return picture_fileName
@@ -106,14 +122,14 @@ def user(username):
         if form.picture.data:
             picture_file = save_picture(form.picture.data)
             current_user.image_file = picture_file
-        current_user.username = form.username.data
-        current_user.email = form.email.data
+        # current_user.username = form.username.data
+        # current_user.email = form.email.data
         db.session.commit()
         flash('Your account has been updated', 'success')
         return redirect(url_for('user'))
-    elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
+    # elif request.method == 'GET':
+    #     form.username.data = current_user.username
+    #     form.email.data = current_user.email
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
 
     posts = user.posts
@@ -140,8 +156,8 @@ def edit_profile():
                                form=form)
 
 
-#@app.route('/submit', methods=['GET', 'POST'])
-#def upload_file():
+# @app.route('/submit', methods=['GET', 'POST'])
+# def upload_file():
 #    form = PostForm()
 #    if form.validate_on_submit():
 #        filename = photos.save(form.photo.data)

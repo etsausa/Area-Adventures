@@ -45,6 +45,7 @@ class Post(db.Model):
     Long = db.Column(db.Float, index=True)
     Lat = db.Column(db.Float, index=True)
     timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    image_file = db.Column(db.String(60), nullable=False, default='default.jpg')
     is_submitted = db.Column(db.Boolean)
     user_id =  db.Column(db.Integer, db.ForeignKey(User.id))
 

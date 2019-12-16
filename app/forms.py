@@ -41,7 +41,7 @@ class PostForm(FlaskForm):
     description = StringField('Description')
     longitude = DecimalField('Longitude', validators=[DataRequired()])
     latitude = DecimalField('Latitude', validators=[DataRequired()])
-    #picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg, ''png'])])
+    picture = FileField('Upload Photo', validators=[FileAllowed(['jpg, ''png'])])
     submit = SubmitField('Submit Post')
 
 
@@ -51,22 +51,23 @@ class EditProfileForm(FlaskForm):
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
 
+
 #------------------- Registration Form------------------------#
 class UpdateAccountForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg, ''png'])])
+    # username = StringField('Username', validators=[DataRequired()])
+    # email = StringField('Email', validators=[DataRequired(), Email()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
 
-    def validate_username(self, username):
-        if username.data != current_user.username:
-            user = User.query.filter_by(username=username.data).first()
-        if user is not None:
-            raise ValidationError('Please use a different username.')
-
-    def validate_email(self, email):
-        if email.data != current_user.email:
-            user = User.query.filter_by(email=email.data).first()
-
-        if user is not None:
-            raise ValidationError('Please use a different email address.')
+    # def validate_username(self, username):
+    #     if username.data != current_user.username:
+    #         user = User.query.filter_by(username=username.data).first()
+    #     if user is not None:
+    #         raise ValidationError('Please use a different username.')
+    #
+    # def validate_email(self, email):
+    #     if email.data != current_user.email:
+    #         user = User.query.filter_by(email=email.data).first()
+    #
+    #     if user is not None:
+    #         raise ValidationError('Please use a different email address.')
