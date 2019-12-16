@@ -4,12 +4,6 @@ import os
 from PIL import Image
 from app import app, db
 from flask import render_template, flash, redirect, url_for, request, jsonify
-from app.forms import LoginForm, RegistrationForm, PostForm
-from app import app, db, photos
-from flask import render_template, flash, redirect, url_for, request
-from app.forms import LoginForm, RegistrationForm, PostForm
-from app import app, db
-from flask import render_template, flash, redirect, url_for, request, jsonify
 from app.forms import LoginForm, RegistrationForm, PostForm, EditProfileForm, UpdateAccountForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, PostSchema
