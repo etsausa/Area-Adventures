@@ -39,13 +39,31 @@ closer.onclick = function () { //creates a button to close popup
 };
 
 map.on('singleclick', function (event) { //create popup on click
-        let coordinates = event.coordinate;
-        overlay.setPosition(coordinates); //draw popup at coords of marker
+    let coordinates = event.coordinate;
+    overlay.setPosition(coordinates); //draw popup at coords of marker
 
-        let coord = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326'); //grab location data
-        content.innerHTML = '<p>You clicked here:</p><code>' + coord +
-      '</code>';
+    let coord = ol.proj.transform(event.coordinate, 'EPSG:3857', 'EPSG:4326'); //grab location data
+    content.innerHTML = '<p>You clicked here:</p><code>' + coord + '</code>';
 
-        fetch('/postLoc')
+    console.log('coords:' + coord)
+
+    const data = {coordinates:coord};
+
+    fetch('/postLocation',{
+        method: 'POST',
+
+        body: JSON.stringify(data),
+
+        headers: { 'Content-Type': 'application/json'}
+
+    }).then(function (response) { // At this point, Flask has printed our JSON
+        return response.text();
+    }).then(function (text) {
+
+        console.log('POST response: ');
+
+        // Should be 'OK' if everything was successful
+        console.log(text);
+    });
 });
 

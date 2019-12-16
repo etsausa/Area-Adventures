@@ -32,12 +32,12 @@ const map = new ol.Map({ //creates map
 //kindly asks the flask app to give JS posts
 fetch('/getPosts')
     .then(function (response){
-        return response.JSON();
-    }).then(function (json){
+        return response.text();
+    }).then(function (text){
     console.log('GET response text:');
-    console.log(json);
+    console.log(text);
 
-    const posts = json;
+    const posts = JSON.parse(text);
 
     for(let i = 0; i < posts.length; i++) { //for every post
         console.log("Current Post:");

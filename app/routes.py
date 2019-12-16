@@ -29,8 +29,12 @@ def getPosts():
 
 @app.route('/postLocation', methods=['POST'])
 def postLocation():
-    print(request.get_json())
-    return 'OK' , 200
+    if request.method == 'POST':
+        coords = request.get_json()
+        print(coords)
+
+        return 'OK', 200
+
 
 @app.route("/submit", methods=['GET','POST'])
 def submit():
