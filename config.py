@@ -7,6 +7,8 @@ class Config(object):
                               'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOADED_PHOTOS_DEST = os.path.join(basedir, 'uploads')
+    ALLOWED_IMAGE_EXTENSIONS = ["JPEG", "JPG", "PNG", "GIF"]
+    MAX_IMAGE_FILESIZE = 0.5 * 1024 * 1024
 
     
 
