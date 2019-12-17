@@ -6,7 +6,7 @@ from app import app, db, photos
 from flask import render_template, flash, redirect, url_for, request
 from app.forms import LoginForm, RegistrationForm, PostForm
 from app import app, db
-from flask import render_template, flash, redirect, url_for, request, jsonify
+from flask import render_template, flash, redirect, url_for, request, jsonify, session
 from app.forms import LoginForm, RegistrationForm, PostForm, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Post, PostSchema
@@ -17,7 +17,8 @@ from werkzeug.utils import secure_filename
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html', title='Home')
+    posts = Post.query.all()
+    return render_template('index.html', title='Home', posts=posts)
 
 @app.route('/getPosts', methods=['GET'])
 def getPosts():
@@ -40,10 +41,9 @@ def postLocation():
 def submit():
     form = PostForm()
 
-
     if form.validate_on_submit():
 
-        p = Post(title=form.loc_name.data, description=form.description.data, Long=form.longitude.data, Lat=form.latitude.data)
+        p = Post(title=form.loc_name.data, description=form.description.data, Long=form.longitude.data, Lat=form.latitude.data, user_id=current_user.id)
 
         db.session.add(p)
         db.session.commit()
@@ -52,7 +52,7 @@ def submit():
 
         return redirect(url_for('index'))
 
-    return render_template('submit.html', form=form)
+    return render_template('submit.html', title='Submit', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])

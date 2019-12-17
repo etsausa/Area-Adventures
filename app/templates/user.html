@@ -25,14 +25,12 @@
         <hr>
         <div class="row">
                 <div class="col-12">
-                    <h3 class="text-center">Recent Posts</h3>
+                    <h3 class="text-center">Posts</h3>
                     {% for post in posts %}
                     <div class="card border-dark mb-3 mx-auto w-25" >
     {#                  <div class="card-header">{{ post.title }}</div>#}
                       <div class="card-body text-dark">
-                       {% for post in posts %}
-                            {% include "_post.html" %}
-                        {% endfor %}
+                          {% include "_post.html" %}
                       </div>
                     </div>
                     {% endfor %}

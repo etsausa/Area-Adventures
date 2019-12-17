@@ -47,8 +47,9 @@ map.on('singleclick', function (event) { //create popup on click
 
     console.log('coords:' + coord)
 
-    const data = {coordinates:coord};
 
+
+    const data = {coordinates:coord};
     fetch('/postLocation',{
         method: 'POST',
 
@@ -65,5 +66,6 @@ map.on('singleclick', function (event) { //create popup on click
         // Should be 'OK' if everything was successful
         console.log(text);
     });
+
 });
 
