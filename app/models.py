@@ -1,6 +1,6 @@
 from datetime import datetime
 from hashlib import md5
-from app import db
+from app import db, ma
 from app import login
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -37,26 +37,21 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-class Location(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    Long = db.Column(db.Float, index=True)
-    Lat = db.Column(db.Float, index=True)
-    street = db.Column(db.String)
-
-    post = db.relationship('Post', backref='location', lazy='dynamic')
-
-    def __repr__(self):
-        return '<location {}>'.format(self.post)
-
-
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64), index=True)
     description = db.Column(db.String(512), index=True)
+    Long = db.Column(db.Float, index=True)
+    Lat = db.Column(db.Float, index=True)
     timeStamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     is_submitted = db.Column(db.Boolean)
     user_id =  db.Column(db.Integer, db.ForeignKey(User.id))
-    location_id = db.Column(db.Integer, db.ForeignKey(Location.id))
 
     def __repr__(self):
         return '<Post {}>'.format(self.title)
+
+
+#Marshmallow Schemas for JSONIFY
+class PostSchema(ma.ModelSchema):
+    class Meta:
+        model = Post

@@ -36,6 +36,22 @@ class RegistrationForm(FlaskForm):
 
 #------------------- Post Form------------------------#
 class PostForm(FlaskForm):
+    loc_name = StringField('Location Title', validators=[DataRequired()])
+    description = StringField('Description')
+    longitude = DecimalField('Longitude', validators=[DataRequired()])
+    latitude = DecimalField('Latitude', validators=[DataRequired()])
+    submit = SubmitField('Submit Post')
+
+    # image = FileField(u'Image',[validators.regexp(u'^[^/\\]\.jpg$')]) )
+    #
+    # def validate_image(form, field):
+    #     if field.data:
+    #         field.data = re.sub(r'[^a-z0-9_.-]', '_', field.data)
+    # def upload(request):
+    #     form = PostForm(request.post)
+    #     if form.image.data:
+    #         image_data = request.FILES[form.image.name].read()
+    #     open(os.path.join(".", form.image.data), 'w').write(image_data)
     # destName = StringField('Name', validators=[DataRequired()])
     # field_latitude = FloatField(u'Latitude', default=-30, validators=[DataRequired()], description='48.182601')
     # field_longitude = FloatField(u'Longitude', default=150, validators=[DataRequired()], description='11.304939')
@@ -46,14 +62,12 @@ class PostForm(FlaskForm):
     # latitude = DecimalField('Latitude', validators=[DataRequired()])
     # description = StringField('Description')
 
-    photo = FileField(validators=[FileAllowed(photos, 'Image only!'), FileRequired('File was empty!')])
+    #photo = FileField(validators=[FileAllowed(photos, 'Image only!'), FileRequired('File was empty!')])
 
-    submit = SubmitField('Submit')
-
+    #submit = SubmitField('Submit')
 
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
-
 
